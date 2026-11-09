@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Certificate customization · Easygenerator prototype</title>
+<style>
+:root{--bg:#f4f5f7;--pn:#fff;--tx:#1f2430;--mu:#6a7080;--ln:#e1e4ea;--in:#fff;--ro:#eef0f4;--ac:#f26b2a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15161a;--pn:#1e2026;--tx:#eef0f4;--mu:#9aa1b0;--ln:#30343d;--in:#272a32;--ro:#2a2d35;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#15161a;--pn:#1e2026;--tx:#eef0f4;--mu:#9aa1b0;--ln:#30343d;--in:#272a32;--ro:#2a2d35;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.hd{display:flex;align-items:center;gap:14px;padding:12px 20px;background:var(--pn);border-bottom:1px solid var(--ln);flex-wrap:wrap}
+.hd .lg{width:120px;aspect-ratio:119/42;background:#fff;border-radius:8px;padding:5px 10px;box-sizing:content-box}
+.hd b{display:block;font-size:15px}.hd small{color:var(--mu)}
+.ha{margin-left:auto;display:flex;gap:8px}
+.bt{background:var(--ac);color:#fff;border:0;border-radius:8px;padding:8px 16px;font-weight:600;cursor:pointer}
+.b2{background:none;border:1px solid var(--ln);border-radius:8px;padding:8px 14px;cursor:pointer}
+main{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:20px;padding:20px;max-width:1280px;margin:0 auto}
+.cd{background:var(--pn);border:1px solid var(--ln);border-radius:12px;padding:18px;margin-bottom:16px}
+h2{font-size:16px;font-weight:600;margin:0 0 12px}.hint{margin:-6px 0 16px;color:var(--mu);font-size:13px}
+.tg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.th{background:none;border:2px solid transparent;border-radius:10px;padding:4px;cursor:pointer;text-align:center}.th:hover{border-color:var(--ln)}
+.th[aria-pressed=true]{border-color:var(--ac)}
+.th span{display:block;margin-top:4px;font-size:12px;color:var(--mu)}
+.up,.add{width:100%;height:40px;padding:0 12px;border:1px solid var(--ln);background:var(--in);border-radius:8px;cursor:pointer;margin-top:12px;font-weight:600}
+.add{border-style:dashed;margin-top:4px}.add:disabled{opacity:.4;cursor:not-allowed}
+.nt{font-size:12px;color:var(--mu);text-align:center;margin:6px 0 0}
+.rule{margin-bottom:16px}.rule label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.rw{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.mi{flex:1;min-width:180px;height:40px;border:1px solid var(--ln);background:var(--in);border-radius:8px;padding:0 12px}
+.sp{flex:none;width:220px;height:40px;display:flex;align-items:center;gap:8px;background:var(--ro);border:1px solid var(--ln);border-radius:8px;padding:0 10px;white-space:nowrap;font-size:13px}.sv{flex:1;min-width:0;display:flex;align-items:center;gap:3px}.rg{font-weight:600;font-variant-numeric:tabular-nums}
+.sl{flex:none;color:var(--mu);font-size:12px}
+.fi{width:52px;height:28px;border:1px solid var(--ln);background:var(--in);border-radius:6px;padding:0 6px;text-align:center;-moz-appearance:textfield;appearance:textfield}.fi::-webkit-inner-spin-button,.fi::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}.fi[aria-invalid=true]{border-color:#d92d20;box-shadow:0 0 0 2px #d92d2033}
+.ic{flex:none;width:36px;height:36px;border:0;background:none;color:var(--mu);cursor:pointer;border-radius:8px;display:grid;place-items:center}
+button.ic:hover{background:var(--ro)}
+.rule.act .mi{border-color:var(--ac);box-shadow:0 0 0 2px #f26b2a33}
+.us{display:inline-flex;align-items:center;gap:6px;height:40px;background:#1f2430;color:#fff;border:0;border-radius:8px;padding:0 14px;cursor:pointer;white-space:nowrap}
+.us img{height:18px;border-radius:2px;background:#fff}
+.sw{display:flex;align-items:center;gap:8px;font-weight:600;position:relative;cursor:pointer}
+.sw input{position:absolute;opacity:0}
+.sw i{width:38px;height:22px;border-radius:11px;background:var(--mu);position:relative;transition:.2s}
+.sw i::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:.2s}
+.sw input:checked+i{background:var(--ac)}.sw input:checked+i::after{left:19px}
+.sw input:focus-visible+i{outline:2px solid var(--ac);outline-offset:2px}
+.off{opacity:.4;pointer-events:none}
+.pv{position:sticky;top:12px;align-self:start}
+.pvh{display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.pvh label{flex:1;display:flex;align-items:center;gap:8px;color:var(--mu);min-width:200px}
+.pvh input{flex:1;min-width:90px;accent-color:var(--ac)}
+.chip{background:var(--ro);border-radius:99px;padding:3px 12px;font-weight:600}
+#ts{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:#1f2430;color:#fff;padding:10px 18px;border-radius:8px;opacity:0;transition:.25s;pointer-events:none}
+#ts.on{opacity:1;transform:translate(-50%,0)}
+.cw{container-type:inline-size}
+.cert{--cb:#fff;--ct:#222;--ca:#f26b2a;--cbd:#d9dce3;aspect-ratio:1.414;position:relative;overflow:hidden;border-radius:4px;box-shadow:0 1px 8px #0003;color:var(--ct);background-color:var(--cb);display:flex;flex-direction:column;align-items:center;text-align:center;padding:6cqw 8cqw 8cqw;font-family:system-ui,"Segoe UI",Roboto,Arial,sans-serif}
+.cert::before{content:"";position:absolute;inset:2.6cqw;border:.2cqw solid var(--cbd);pointer-events:none}
+.cert[data-t=default]{background-image:radial-gradient(#0000000f 1px,transparent 1.3px);background-size:9px 9px}
+.cert[data-t=green]{--cb:#f1eed8;--ct:#2e3d2a;--ca:#b08d3c;--cbd:#7f9c70}
+.cert[data-t=ocean]{--cb:#1e2a5a;--ct:#f4f4fa;--ca:#d9b44a;--cbd:#d9b44a}
+.cert[data-t=burg]{--cb:#6a2217;--ct:#f7e9d3;--ca:#e0b04c;--cbd:#e0b04c}
+.cert[data-t=silver]{--cb:#eceff4;--ct:#27324a;--ca:#5d6e8c;--cbd:#9aa8bd}
+.cert[data-t=sand]{--cb:#f7f0e1;--ct:#3a2e1c;--ca:#a8793a;--cbd:#c9b48a}
+.cert[data-t=green]::before,.cert[data-t=ocean]::before,.cert[data-t=burg]::before{border-width:.45cqw;inset:2.2cqw}
+.cert[data-t=custom]{background-size:cover;background-position:center}
+.cert[data-t=custom]::before{display:none}
+.lgw{padding:.6cqw 2cqw;border-radius:3cqw}
+.cert[data-t=ocean] .lgw,.cert[data-t=burg] .lgw{background:#fff}
+.cert .lg{width:18cqw;aspect-ratio:119/42;display:block}
+.dt{font-size:1.4cqw;margin-top:2cqw;opacity:.85}
+.ti{font:600 3.2cqw Georgia,"Times New Roman",serif;letter-spacing:.9cqw;margin:2.2cqw 0 1.4cqw}
+.rl{width:6cqw;height:.3cqw;background:var(--ca);margin:.8cqw 0 2.6cqw}
+.nm{font-size:2.2cqw;font-weight:500}
+.ms{font-size:1.6cqw;margin:1.5cqw 0 1.3cqw;padding:.5cqw 1.4cqw;border-radius:1cqw;min-height:2.6cqw;transition:outline-color .2s;outline:.25cqw solid transparent;outline-offset:.5cqw}
+.ms.on{outline-color:#f26b2a}
+.cn{font-size:2.1cqw;font-weight:500}.sc{font-size:1.5cqw;margin-top:1.1cqw}
+.sg{margin-top:auto;width:100%;display:flex;justify-content:space-around;align-items:flex-end;gap:2cqw;font-size:1.4cqw}
+.sg>div{min-width:14cqw}
+.sig{height:5.5cqw;display:flex;align-items:flex-end;justify-content:center;border-bottom:.2cqw solid var(--cbd);margin-bottom:.6cqw;font:italic 3.2cqw "Brush Script MT","Segoe Script","Snell Roundhand",cursive}
+.sig img{max-height:5.5cqw;max-width:14cqw}
+.vf{position:absolute;left:0;right:0;bottom:3.8cqw;font-size:.9cqw;opacity:.75}.vf span{color:var(--ca)}
+@media(max-width:900px){main{grid-template-columns:1fr;padding:12px}.pv{position:static;order:-1}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head><body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="lg" viewBox="0 0 119 42"><path d="M8.3851 40.394C-2.78328 34.0299 -2.74884 7.70101 8.21193 1.51847C19.1727 -4.66408 41.9104 9.26554 41.9104 21.1043C41.9104 32.943 19.5535 46.7581 8.3851 40.394Z" fill="#FC794B"/>
+<path d="M7.87672 16.4021C10.4352 16.4021 12.1123 18.4601 12.1123 20.9297C12.1123 21.0755 12.1037 21.2127 12.0952 21.3499C12.0695 21.5985 11.9155 21.71 11.6845 21.71H5.30765C5.58883 23.1155 6.6324 23.8366 7.93662 23.8366C8.74951 23.8366 9.42549 23.4936 9.79342 23.0134C9.93033 22.8676 10.0587 22.7819 10.264 22.7819L11.3593 22.7733C11.6417 22.7733 11.7957 22.9448 11.6845 23.1849C11.0598 24.5826 9.65652 25.423 7.91095 25.423C5.18136 25.423 3.39301 23.485 3.39301 20.9125C3.39301 18.3743 5.19847 16.4021 7.87672 16.4021ZM5.30064 20.1837H10.2531C10.0106 18.7233 8.96993 18.0914 7.86834 18.0914C6.48831 18.0914 5.55221 18.9007 5.30064 20.1837ZM21.7533 16.625C22.0015 16.625 22.1384 16.7622 22.1384 17.0109V24.8142C22.1384 25.0628 22.0015 25.2 21.7533 25.2H20.6752C20.427 25.2 20.2901 25.0628 20.2901 24.8142V23.9694C19.6426 24.8696 18.636 25.423 17.2869 25.423C14.9595 25.423 13.0342 23.4593 13.0342 20.9125C13.0342 18.3658 14.9595 16.4021 17.2869 16.4021C18.636 16.4021 19.6426 16.9555 20.2901 17.8557V17.0109C20.2901 16.7622 20.427 16.625 20.6752 16.625H21.7533V16.625ZM17.5862 23.6565C19.1264 23.6565 20.2901 22.5075 20.2901 20.9125C20.2901 19.3176 19.1264 18.1685 17.5862 18.1685C16.046 18.1685 14.8823 19.3176 14.8823 20.9125C14.8823 22.5075 16.046 23.6565 17.5862 23.6565ZM25.6956 19.0346C25.6956 20.7582 30.4446 19.5148 30.4446 22.7905C30.4446 24.4797 28.9728 25.423 27.0818 25.423C25.3277 25.423 23.9329 24.5826 23.7447 22.9534C23.719 22.6876 23.873 22.5504 24.1212 22.5504H25.1822C25.4132 22.5504 25.5074 22.679 25.5929 22.8934C25.7384 23.5108 26.3374 23.7594 27.0818 23.7594C27.9803 23.7594 28.5963 23.4422 28.5963 22.7905C28.5963 21.084 23.8474 22.3017 23.8474 19.0346C23.8474 17.3625 25.3191 16.4021 27.0818 16.4021C28.6819 16.4021 30.0595 17.2424 30.2478 18.8717C30.2735 19.1375 30.1194 19.2747 29.8713 19.2747H28.8103C28.5792 19.2747 28.4851 19.1461 28.3995 18.9231C28.2626 18.3143 27.6893 18.0656 27.0818 18.0656C26.3117 18.0656 25.6956 18.3829 25.6956 19.0346ZM36.9025 16.9423C36.971 16.7279 37.125 16.625 37.3389 16.625H38.5112C38.785 16.625 38.9219 16.788 38.8278 17.0624L34.9687 28.3213C34.9003 28.5357 34.7377 28.63 34.5238 28.63H33.3515C33.0777 28.63 32.9408 28.4671 33.0349 28.1927L34.0959 25.0971L30.9385 17.0709C30.8358 16.8051 30.9556 16.625 31.238 16.625H32.4017C32.6156 16.625 32.7611 16.7194 32.8381 16.9252L35.0201 22.5332L36.9025 16.9423Z" fill="white"/>
+<path d="M52.6256 16.6251C52.8738 16.6248 53.0107 16.762 53.0107 17.0106V24.8139C53.0107 27.5579 50.8544 28.8527 48.6639 28.8527C46.636 28.8527 44.7192 27.7465 44.4711 25.9029C44.454 25.6371 44.608 25.4999 44.8562 25.4999H45.9429C46.1739 25.4999 46.2851 25.6199 46.3536 25.8429C46.5589 26.5203 47.3633 27.172 48.6639 27.172C50.2726 27.172 51.1967 26.2973 51.1967 24.8139V23.7627C50.5505 24.678 49.5321 25.2514 48.1589 25.2514C45.8314 25.2514 43.9062 23.2877 43.9062 20.8267C43.9062 18.3656 45.8314 16.402 48.1589 16.402C49.5321 16.402 50.5505 16.9753 51.1967 17.8906V17.011C51.1967 16.7623 51.3336 16.6251 51.5817 16.6251H52.6256ZM48.4756 23.519C50.033 23.519 51.1967 22.37 51.1967 20.8265C51.1967 19.283 50.033 18.134 48.4756 18.134C46.9183 18.134 45.7546 19.283 45.7546 20.8265C45.7546 22.37 46.9183 23.519 48.4756 23.519ZM58.9895 16.4021C61.5479 16.4021 63.225 18.4601 63.225 20.9297C63.225 21.0755 63.2165 21.2127 63.2079 21.3499C63.1823 21.5986 63.0282 21.7101 62.7972 21.7101H56.4204C56.7016 23.1155 57.7452 23.8367 59.0494 23.8367C59.8623 23.8367 60.5382 23.4937 60.9062 23.0135C61.0431 22.8677 61.1714 22.7819 61.3768 22.7819L62.4721 22.7734C62.7544 22.7734 62.9084 22.9449 62.7972 23.185C62.1726 24.5827 60.7693 25.423 59.0237 25.423C56.2941 25.423 54.5058 23.4851 54.5058 20.9126C54.5058 18.3744 56.3112 16.4021 58.9895 16.4021ZM56.4134 20.1837H61.3658C61.1233 18.7234 60.0827 18.0914 58.9811 18.0914C57.6011 18.0914 56.665 18.9007 56.4134 20.1837ZM68.8958 16.4021C70.4873 16.4021 71.7195 17.6198 71.7195 19.6778V24.8142C71.7195 25.0629 71.5826 25.2001 71.3344 25.2001H70.2563C70.0082 25.2001 69.8712 25.0629 69.8712 24.8142V19.7893C69.8712 18.6831 69.2038 18.1343 68.3054 18.1343C67.3385 18.1343 66.4657 18.7088 66.4657 20.278V24.8142C66.4657 25.0629 66.3288 25.2001 66.0806 25.2001H65.0025C64.7543 25.2001 64.6174 25.0629 64.6174 24.8142V17.011C64.6174 16.7623 64.7543 16.6251 65.0025 16.6251H66.0806C66.3288 16.6251 66.4657 16.7623 66.4657 17.011V17.596C67.0136 16.7614 67.8498 16.4021 68.8958 16.4021ZM77.4844 16.4021C80.0428 16.4021 81.7199 18.4601 81.7199 20.9297C81.7199 21.0755 81.7114 21.2127 81.7028 21.3499C81.6771 21.5986 81.5231 21.7101 81.2921 21.7101H74.9153C75.1965 23.1155 76.24 23.8367 77.5442 23.8367C78.3571 23.8367 79.0331 23.4937 79.4011 23.0135C79.538 22.8677 79.6663 22.7819 79.8717 22.7819L80.9669 22.7734C81.2493 22.7734 81.4033 22.9449 81.2921 23.185C80.6674 24.5827 79.2641 25.423 77.5186 25.423C74.789 25.423 73.0006 23.4851 73.0006 20.9126C73.0006 18.3744 74.8061 16.4021 77.4844 16.4021ZM74.9083 20.1837H79.8607C79.6182 18.7234 78.5776 18.0914 77.476 18.0914C76.0959 18.0914 75.1598 18.9007 74.9083 20.1837ZM87.0313 16.4965C87.2878 16.4622 87.4247 16.6165 87.4247 16.8652V18.0828C87.4247 18.3229 87.322 18.4601 87.1423 18.4601C86.0214 18.4859 84.9604 19.1033 84.9604 20.7925V24.8142C84.9604 25.0629 84.8235 25.2001 84.5753 25.2001H83.4972C83.249 25.2001 83.1121 25.0629 83.1121 24.8142V17.011C83.1121 16.7623 83.249 16.6251 83.4972 16.6251H84.5753C84.8235 16.6251 84.9604 16.7623 84.9604 17.011V17.9108C85.413 17.0045 86.1612 16.5899 87.0313 16.4965ZM96.8691 17.011V24.8142C96.8691 25.0629 96.7322 25.2001 96.4841 25.2001H95.4059C95.1578 25.2001 95.0209 25.0629 95.0209 24.8142V23.9694C94.3733 24.8696 93.3667 25.423 92.0176 25.423C89.6902 25.423 87.765 23.4594 87.765 20.9126C87.765 18.3658 89.6902 16.4021 92.0176 16.4021C93.3667 16.4021 94.3733 16.9556 95.0209 17.8558V17.011C95.0209 16.7623 95.1578 16.6251 95.4059 16.6251H96.4841C96.7322 16.6251 96.8691 16.7623 96.8691 17.011ZM92.3169 23.6566C93.8572 23.6566 95.0209 22.5075 95.0209 20.9126C95.0209 19.3176 93.8572 18.1686 92.3169 18.1686C90.7767 18.1686 89.613 19.3176 89.613 20.9126C89.613 22.5075 90.7767 23.6566 92.3169 23.6566ZM102.685 16.6251C102.933 16.6251 103.07 16.7623 103.07 17.011V18.0228C103.07 18.2715 102.933 18.4087 102.685 18.4087H101.496V24.8142C101.496 25.0629 101.359 25.2001 101.111 25.2001H100.033C99.7846 25.2001 99.6477 25.0629 99.6477 24.8142V18.4087H98.4497C98.2016 18.4087 98.0647 18.2715 98.0647 18.0228V17.011C98.0647 16.7623 98.2016 16.6251 98.4497 16.6251H99.6477V14.267C99.6477 14.0183 99.7846 13.8811 100.033 13.8811H101.111C101.359 13.8811 101.496 14.0183 101.496 14.267V16.6251H102.685ZM108.057 25.423C105.549 25.423 103.539 23.4594 103.539 20.9126C103.539 18.3658 105.549 16.4021 108.057 16.4021C110.564 16.4021 112.575 18.3658 112.575 20.9126C112.575 23.4594 110.564 25.423 108.057 25.423ZM108.057 23.6223C109.563 23.6223 110.726 22.4732 110.726 20.9126C110.726 19.3519 109.563 18.2029 108.057 18.2029C106.551 18.2029 105.387 19.3519 105.387 20.9126C105.387 22.4732 106.551 23.6223 108.057 23.6223ZM117.98 16.4965C118.237 16.4622 118.373 16.6165 118.373 16.8652V18.0828C118.373 18.3229 118.271 18.4601 118.091 18.4601C116.97 18.4859 115.909 19.1033 115.909 20.7925V24.8142C115.909 25.0629 115.772 25.2001 115.524 25.2001H114.446C114.198 25.2001 114.061 25.0629 114.061 24.8142V17.011C114.061 16.7623 114.198 16.6251 114.446 16.6251H115.524C115.772 16.6251 115.909 16.7623 115.909 17.011V17.9108C116.362 17.0045 117.11 16.5899 117.98 16.4965Z" fill="black"/></symbol>
+<symbol id="tr" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6.5 7l1 13h9l1-13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol></svg>
+<header class="hd"><svg class="lg" aria-label="Easygenerator"><use href="#lg"/></svg><div><b>Certificate settings</b><small>Course: How to report a bug</small></div><div class="ha"><button class="b2" id="rs">Reset</button><button class="bt" id="sv">Save changes</button></div></header>
+<main><div>
+<section class="cd"><h2>Choose certificate template</h2><div class="tg" id="tg"></div><button class="up" id="ub">Upload Custom Design</button><input id="cf" type="file" accept="image/*" hidden><p class="nt" id="un">Leave space in your custom design for the certificate text and logo.</p></section>
+<section class="cd"><h2>Certificate messages</h2><p class="hint">Choose the message printed on the certificate for each score range.</p><div id="rl"></div><button class="add" id="ar">+ Add score rule</button></section>
+<section class="cd"><label class="sw"><input type="checkbox" id="sgT" role="switch" checked><i></i>Signatures</label><div id="sb" style="margin-top:14px"><div id="sl"></div><button class="add" id="sa">+ Add signatory</button></div></section>
+</div>
+<aside class="pv"><section class="cd"><div class="pvh"><h2 style="margin:0">Preview</h2><label>Learner score <input type="range" id="sc" min="0" max="100" value="100"></label><span class="chip" id="scv">100%</span></div><div class="cw"><div class="cert" id="cert"></div></div></section></aside></main>
+<div id="ts" role="status">Certificate settings saved</div>
+<script>
+const $=s=>document.querySelector(s),D=new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const TP=[['default','Default'],['green','Greenish'],['ocean','Ocean'],['burg','Burgundy'],['silver','Silver'],['sand','Sand']];
+const NM=['Ava Chen','Sam Rivera','Lena Novak','Omar Haddad','Mia Rossi'],TR='<svg width="16" height="16"><use href="#tr"/></svg>';
+let S,uid=10,tm;
+const init=()=>({t:'default',cu:null,score:100,on:true,
+ rules:[{id:1,l:'Completion message',m:'has successfully earned the super nova badge.',f:90},{id:2,l:'Distinction message',m:'has completed the course with distinction.',f:80},{id:3,l:'Merit message',m:'has completed the course with merit.',f:70},{id:4,l:'Pass message',m:'has met the course requirements.',f:60}],
+ re:{m:'is encouraged to review and try again.'},
+ sg:[{id:1,r:'Managing Director',n:'John Doe',img:null},{id:2,r:'Trainer',n:'Marko Polo',img:null}]});
+const hi=i=>i?S.rules[i-1].f-1:100,bd=i=>[i<S.rules.length-1?S.rules[i+1].f+1:1,i?S.rules[i-1].f-1:99];
+const rep=k=>k==='r'?S.rules[S.rules.length-1].f-1:hi(S.rules.findIndex(r=>r.id===k));
+const mt=sc=>{const r=S.rules.find(r=>sc>=r.f);return r?r.id:(S.re?'r':0)};
+const txt=k=>k==='r'?S.re.m:k?S.rules.find(r=>r.id===k).m:'has successfully passed the course';
+const ci=o=>`<div class="lgw"><svg class="lg"><use href="#lg"/></svg></div><div class="dt">On ${D}</div><div class="ti">COURSE CERTIFICATE</div><div class="rl"></div><div class="nm">Kamruzzaman</div><div class="ms${o.p?' on':''}">${esc(o.m)||'&nbsp;'}</div><div class="cn">How to report a bug</div><div class="sc">with a score of ${o.s}%</div>${o.g.length?`<div class="sg">${o.g.map(g=>`<div><div class="sig">${g.img?`<img src="${g.img}" alt="">`:esc(g.n)}</div>${esc(g.r)}</div>`).join('')}</div>`:''}${o.th?'':'<div class="vf">Verify certificate by link: <span>https://certificates.easygenerator.com/68b63020f393360007a65bd6.pdf</span></div>'}`;
+function paint(p){const k=mt(S.score),c=$('#cert');c.dataset.t=S.t;c.style.backgroundImage=S.t==='custom'&&S.cu?`url("${S.cu.u}")`:'';
+ c.innerHTML=ci({m:txt(k),s:S.score,g:S.on?S.sg:[],p});$('#scv').textContent=S.score+'%';$('#sc').value=S.score;
+ document.querySelectorAll('#rl .rule').forEach(e=>e.classList.toggle('act',e.dataset.k===String(k)))}
+const pulse=()=>{paint(1);clearTimeout(tm);tm=setTimeout(()=>paint(0),1400)};
+function rg(){const n=S.rules.length;S.rules.forEach((r,i)=>{const w=$(`#rl [data-k="${r.id}"]`),e=w&&w.querySelector('.rg'),f=w&&w.querySelector('.fi'),[lo,h]=bd(i);if(e)e.textContent=i?`% – ${hi(i)}%`:'% or above';if(f){f.min=lo;f.max=h;f.title=`Enter a score from ${lo}% to ${h}%`}});const e=$('#rl [data-k="r"] .rg');if(e)e.textContent=`Below ${S.rules[n-1].f}%`;$('#ar').disabled=S.rules[n-1].f<=1}
+function rl(){$('#rl').innerHTML=S.rules.map((r,i)=>`<div class="rule" data-k="${r.id}"><label>${esc(r.l)}</label><div class="rw"><input class="mi" value="${esc(r.m)}" aria-label="${esc(r.l)}"><span class="sp"><span class="sl">Score range</span><span class="sv"><input class="fi" type="number" inputmode="numeric" value="${r.f}" aria-label="Lowest score for ${esc(r.l)}"><b class="rg"></b></span></span>${i?`<button class="ic" aria-label="Delete ${esc(r.l)}">${TR}</button>`:'<span class="ic"></span>'}</div></div>`).join('')
+ +(S.re?`<div class="rule" data-k="r"><label>Retry message</label><div class="rw"><input class="mi" value="${esc(S.re.m)}" aria-label="Retry message"><span class="sp"><span class="sl">Score range</span><span class="sv"><b class="rg"></b></span></span><button class="ic" aria-label="Delete retry message">${TR}</button></div></div>`:'');
+ rg();$('#ar').disabled=S.rules[S.rules.length-1].f<=1;paint(0)}
+const key=e=>{const w=e.target.closest('.rule');if(!w)return null;return w.dataset.k==='r'?'r':+w.dataset.k};
+$('#rl').addEventListener('input',e=>{const k=key(e);if(k===null)return;
+ if(e.target.classList.contains('mi'))(k==='r'?S.re:S.rules.find(r=>r.id===k)).m=e.target.value;
+ else if(e.target.classList.contains('fi')){const[lo,h]=bd(S.rules.findIndex(r=>r.id===k)),v=e.target.value;e.target.setAttribute('aria-invalid',v===''||+v<lo||+v>h);return}
+ S.score=rep(k);pulse()});
+$('#rl').addEventListener('change',e=>{if(!e.target.classList.contains('fi'))return;const k=key(e),i=S.rules.findIndex(r=>r.id===k),[lo,h]=bd(i),raw=e.target.value,v=Math.round(+raw);if(raw!==''&&isFinite(v))S.rules[i].f=Math.max(lo,Math.min(h,v));e.target.value=S.rules[i].f;e.target.removeAttribute('aria-invalid');rg();S.score=rep(k);pulse()});
+$('#rl').addEventListener('focusin',e=>{const k=key(e);if(k===null||e.target.tagName!=='INPUT')return;S.score=rep(k);pulse()});
+$('#rl').addEventListener('click',e=>{const b=e.target.closest('button.ic');if(!b)return;const k=b.closest('.rule').dataset.k;if(k==='r')S.re=null;else S.rules=S.rules.filter(r=>r.id!==+k);S.score=100;rl()});
+$('#ar').onclick=()=>{const l=S.rules[S.rules.length-1].f,id=++uid;S.rules.push({id,l:'Custom message '+(S.rules.length-3),m:'has completed the course.',f:l>6?l-5:1});S.score=rep(id);rl();$(`#rl [data-k="${id}"] .mi`).focus()};
+function th(){const g=[{n:'John Doe',r:'Managing Director'},{n:'Marko Polo',r:'Trainer'}];
+ $('#tg').innerHTML=TP.concat(S.cu?[['custom','Custom']]:[]).map(([t,n])=>`<button class="th" data-t="${t}" aria-pressed="${S.t===t}"><div class="cw" aria-hidden="true"><div class="cert" data-t="${t}"${t==='custom'?` style="background-image:url('${S.cu.u}')"`:''}>${ci({m:'has successfully passed the course',s:100,g,th:1})}</div></div><span>${n}</span></button>`).join('')}
+$('#tg').onclick=e=>{const b=e.target.closest('.th');if(!b)return;S.t=b.dataset.t;th();paint(0)};
+$('#ub').onclick=()=>$('#cf').click();
+$('#cf').onchange=e=>{const f=e.target.files[0];if(!f)return;S.cu={u:URL.createObjectURL(f),n:f.name};S.t='custom';th();paint(0);$('#un').textContent='Custom design added: '+f.name+'. Leave space in your design for the certificate text and logo.'};
+function sl(){$('#sl').innerHTML=S.sg.map(g=>`<div class="rule" data-i="${g.id}"><label>Signature (150×150 px, png/jpg)</label><div class="rw"><input class="mi ri" value="${esc(g.r)}" aria-label="Signatory title"><button class="us">${g.img?`<img src="${g.img}" alt="">Replace`:'Upload Signature'}</button><input class="fl" type="file" accept="image/png,image/jpeg" hidden><button class="ic dl" aria-label="Remove signatory">${TR}</button></div></div>`).join('')}
+const gi=e=>S.sg.find(g=>g.id===+e.target.closest('.rule').dataset.i);
+$('#sl').addEventListener('input',e=>{if(e.target.classList.contains('ri')){gi(e).r=e.target.value;paint(0)}});
+$('#sl').addEventListener('click',e=>{const u=e.target.closest('.us'),d=e.target.closest('.dl');if(u)u.parentNode.querySelector('.fl').click();if(d){S.sg=S.sg.filter(g=>g!==gi(e));sl();paint(0)}});
+$('#sl').addEventListener('change',e=>{if(!e.target.classList.contains('fl')||!e.target.files[0])return;gi(e).img=URL.createObjectURL(e.target.files[0]);sl();paint(0)});
+$('#sa').onclick=()=>{S.sg.push({id:++uid,r:'Signatory',n:NM[S.sg.length%NM.length],img:null});sl();paint(0)};
+$('#sgT').onchange=e=>{S.on=e.target.checked;$('#sb').classList.toggle('off',!S.on);paint(0)};
+$('#sc').oninput=e=>{S.score=+e.target.value;paint(0)};
+$('#sv').onclick=()=>{const t=$('#ts');t.classList.add('on');setTimeout(()=>t.classList.remove('on'),1800)};
+function all(){S=init();$('#sgT').checked=true;$('#sb').classList.remove('off');$('#un').textContent='Leave space in your custom design for the certificate text and logo.';th();rl();sl()}
+$('#rs').onclick=all;all();
+</script></body></html>
